@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 
 export const sendContactEmail = async (req: Request, res: Response) => {
@@ -34,14 +34,12 @@ export const sendContactEmail = async (req: Request, res: Response) => {
       `,
     });
 
-    console.log('Correo enviado:', info.response);
     return res
       .status(200)
       .json({ success: true, message: 'Mensaje enviado correctamente.' });
   } catch (err) {
-    console.error('Error al enviar correo:', err);
     return res
       .status(500)
-      .json({ error: 'Error al enviar el mensaje', details: err });
+      .json({ success: false, message: `Hubo un error. ${err}` });
   }
 };
