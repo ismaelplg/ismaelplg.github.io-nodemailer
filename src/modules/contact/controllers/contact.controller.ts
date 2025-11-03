@@ -1,7 +1,10 @@
 import e, { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 
-export const sendContactEmail = async (req: Request, res: Response) => {
+export const sendContactEmail = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
@@ -9,16 +12,14 @@ export const sendContactEmail = async (req: Request, res: Response) => {
   }
 
   try {
-    // Configurar transporte de Gmail
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.SMTP_USER, // tu cuenta gmail
-        pass: process.env.SMTP_PASSWORD, // app password
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
-    // Enviar correo
     const info = await transporter.sendMail({
       from: `"ismaelplg.github.io" <${process.env.SMTP_USER}>`,
       to: process.env.EMAIL_RECEIVER,
